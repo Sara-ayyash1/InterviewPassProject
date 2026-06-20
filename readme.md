@@ -262,4 +262,4 @@ Full Stack Developer — AXSOS Academy (Python Stack)
 
 ## License
 
-This project was built as a solo capstone project at AXSOS Academy. All rights reserved.
+This project was built as a solo capstone project at AXSOS Academy. All rights reserved.ِ

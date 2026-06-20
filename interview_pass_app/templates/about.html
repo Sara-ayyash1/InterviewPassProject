@@ -11,8 +11,8 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        * { font-family: 'Inter', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
         .gradient-bg { background: linear-gradient(135deg, #32B599 0%, #1a8a70 100%); }
         .glass { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
         .card-hover { transition: all 0.3s ease; }
@@ -22,7 +22,7 @@
 </head>
 <body class="min-h-screen" style="background: #F8FAFB;">
      <!-- Navbar -->
-        <nav class="glass border-b border-gray-100 px-4 lg:px-8 sticky top-0 z-50 flex items-center justify-between" style="height: 65px;">
+    <nav class="glass border-b border-gray-100 px-4 lg:px-8 sticky top-0 z-50 flex items-center justify-between" style="height: 65px;">
         
         <div class="flex items-center gap-6">
             <a href="{% url 'hr_dashboard' %}" class="logo-link flex items-center gap-2.5">
@@ -215,7 +215,7 @@
             <p class="text-xs text-gray-400">© 2026 Interview Pass</p>
         </div>
     </div>
-</footer>
+    </footer>
 
     <!-- Dynamic JavaScript Logic -->
     <script src="{% static 'js/main.js' %}"></script>

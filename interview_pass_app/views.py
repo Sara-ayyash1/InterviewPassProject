@@ -1,4 +1,5 @@
 from functools import wraps
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
@@ -326,7 +327,11 @@ def api_jobs(request):
     # PERFORMANCE OPTIMIZATION: Use 'prefetch_related' on Many-to-Many 'skills' relationship 
     # to avoid the N+1 database query problem during loop serialization.
     if query:
-        jobs = Job.objects.filter(title__icontains=query).prefetch_related('skills')
+        # MULTI-FIELD SEARCH: Use Q objects to search across both job title AND related skill names.
+        # 'distinct()' prevents duplicate job rows when multiple skills match the same query.
+        jobs = Job.objects.filter(
+            Q(title__icontains=query) | Q(skills__name__icontains=query)
+        ).distinct().prefetch_related('skills')
     else:
         jobs = Job.objects.prefetch_related('skills').all()
         
@@ -335,14 +340,14 @@ def api_jobs(request):
     for job in jobs:
         # DATA DENORMALIZATION: Combine related skill object strings into a single clean text format space-separated
         skills_list = [skill.name for skill in job.skills.all()]
-        skills_string = " ".join(skills_list) # Output format example: "React JavaScript Django"
+        skills_string = " ".join(skills_list)
         
         result.append({
             'id': job.id,
             'title': job.title,
             'description': job.description,
-            'experience_level': job.get_experience_level_display(), # Returns user-friendly choice text instead of short code
-            'skills_required': skills_string, 
+            'experience_level': job.get_experience_level_display(),
+            'skills_required': skills_string,
         })
         
     # HTTP RESPONSE: Return raw JSON payload with 'safe=False' to allow top-level serialized arrays

@@ -21,6 +21,7 @@ function getCSRFToken() {
 document.addEventListener('DOMContentLoaded', () => {
 
     initLiveSearch();
+    initQuickFilters();
     initQuestionBuilder();
     initNavHighlight();
     initGenerateDescription();
@@ -60,15 +61,51 @@ function initLiveSearch() {
                 }
 
                 data.forEach(job => {
-                    const isApplied = appliedJobIds.includes(job.id);
+                const isApplied = appliedJobIds.includes(job.id);
+                const skillsHTML = job.skills_required
+                    ? job.skills_required.split(' ').map(s => 
+                        `<span class="px-2 py-0.5 rounded-md bg-slate-50 text-slate-500 text-xs font-medium border border-slate-100/80">${s}</span>`
+                    ).join('')
+                    : '';
+
                     jobsContainer.insertAdjacentHTML('beforeend', `
-                        <div class="bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-lg transition-all">
-                            <h3 class="font-bold text-gray-900">${job.title}</h3>
-                            <p class="text-sm text-slate-600 mt-2">${job.description.substring(0, 100)}...</p>
-                            <div class="mt-4">
+                        <div class="premium-card p-6 flex flex-col gap-4 shadow-premium">
+                            <div class="flex justify-between items-center">
+                                <span class="badge" style="background:#EFF9F6; color:#32B599;">
+                                <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                        </svg>
+                                    ${job.experience_level}
+                                </span>
+                            </div>
+                            <div class="space-y-1.5">
+                                <h3 class="font-bold text-gray-900 text-sm leading-snug tracking-tight">${job.title}</h3>
+                                <p class="text-sm text-gray-400 leading-relaxed">${job.description.substring(0, 95)}...</p>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-1 text-gray-400">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                        </svg>
+                                    <span class="text-[10px] font-semibold tracking-wider uppercase">Skill Requirements</span>
+                                </div>
+                                <div class="flex flex-wrap gap-1">${skillsHTML}</div>
+                            </div>
+                            <div class="mt-auto pt-4 border-t border-slate-50">
                                 ${isApplied
-                                    ? '<div class="text-emerald-600 font-bold text-xs bg-emerald-50 py-2 rounded-lg text-center">Application Secured</div>'
-                                    : `<a href="/jobs/${job.id}/" class="block bg-primary text-white text-center py-2 rounded-lg text-xs font-bold hover:opacity-90">Apply Now</a>`}
+                                    ? `<div class="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-emerald-50 text-emerald-700 rounded-xl text-xs font-bold border border-emerald-100/60">
+                                            <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                            </svg>
+                                            Application Secured
+                                        </div>`
+                                    : `<a href="/jobs/${job.id}/" class="flex items-center justify-center gap-1.5 w-full py-2.5 px-4 bg-gradient-to-r from-[#32B599] to-[#1a8a70] text-white rounded-xl text-xs font-semibold hover:opacity-90 transition">
+                                            Apply with Interview Pass
+                                            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7m0 0l-7 7m7-7H3"/>
+                                            </svg>
+                                    </a>`
+                                }
                             </div>
                         </div>`);
                 });
@@ -76,6 +113,29 @@ function initLiveSearch() {
     });
 }
 
+function initQuickFilters() {
+    const btns = document.querySelectorAll('.quick-filter-btn');
+    if (!btns.length) return;
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            // تحديث الـ active state
+            btns.forEach(b => {
+                b.classList.remove('bg-primary/10', 'text-primary', 'border-primary/20');
+                b.classList.add('bg-gray-50', 'text-gray-500', 'border-gray-100');
+            });
+            this.classList.remove('bg-gray-50', 'text-gray-500', 'border-gray-100');
+            this.classList.add('bg-primary/10', 'text-primary', 'border-primary/20');
+
+            // حط الـ filter بالـ search input وشغّل الـ search
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.value = this.dataset.filter;
+                searchInput.dispatchEvent(new Event('input'));
+            }
+        });
+    });
+}
 // ─── MODULE 2: DYNAMIC QUESTION BUILDER (HR — create_job / edit_job) ────────
 
 /**
@@ -194,6 +254,7 @@ function initGenerateDescription() {
  */
 function initGenerateQuestions() {
     const btn = document.getElementById('generate-questions-btn');
+    const errorMsg = document.getElementById('ai-qerror-msg');
     if (!btn) return;
 
     btn.addEventListener('click', async () => {
@@ -202,9 +263,10 @@ function initGenerateQuestions() {
         const experience = document.querySelector('select[name="experience_level"]').value;
 
         if (!title || !skills) {
-            alert('Please fill in the Job Title and Skills first.');
+            errorMsg.style.display = 'block';
             return;
         }
+        errorMsg.style.display = 'none';
 
         btn.disabled    = true;
         btn.textContent = 'Generating...';
