@@ -154,21 +154,6 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-### Environment Variables
-
-```env
-DB_NAME=job_portal_db
-DB_USER=root
-DB_PASSWORD=your_password
-DB_HOST=localhost
-DB_PORT=3306
-
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_HOST_USER=your@gmail.com
-EMAIL_HOST_PASSWORD=your_app_password
-```
-
 ---
 
 ## API
@@ -269,30 +254,10 @@ gunicorn interview_pass_project.wsgi:application --bind 0.0.0.0:8000
 
 ---
 
-## Project Status
-
-| Milestone | Status |
-|-----------|--------|
-| Models & Database | Done |
-| Authentication (Login / Register) | Done |
-| HR Dashboard | Done |
-| Job CRUD + Questions | Done |
-| Job Seeker Flow + Applications | Done |
-| Applicant Profile & Decision | Done |
-| Profile Page + Photo Upload | Done |
-| Live Search (AJAX) | Done |
-| Email API (Gmail SMTP) | Done |
-| Responsive Design | Done |
-| AWS EC2 Deployment | Done |
-
----
-
 ## Author
 
 **Sara Ayash**  
 Full Stack Developer — AXSOS Academy (Python Stack)  
-[LinkedIn](https://linkedin.com/in/your-profile) · [GitHub](https://github.com/your-username)
-
 ---
 
 ## License

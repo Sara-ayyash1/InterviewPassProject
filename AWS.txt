@@ -7,7 +7,7 @@ MM9NWFK2Z4JMT628HN7NTGHP
         -> (djangoPy3Env) project_name$ git init
         -> (djangoPy3Env) project_name$ git add --all
         -> (djangoPy3Env) project_name$ git commit -m "initial commit"
-        -> (djangoPy3Env) project_name$ git remote add origin https://github.com/Sara-ayyash1/DjangoExam.git
+        -> (djangoPy3Env) project_name$ git remote add origin https://github.com/Sara-ayyash1/InterviewPassProject.git
         -> (djangoPy3Env) project_name$ git push origin master --force
 
 #==========================================
