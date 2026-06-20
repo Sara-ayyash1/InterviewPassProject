@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% load static %}
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { primary: '#32B599', dark: '#1a2e2a' } } }
+        }
+    </script>
+    <style>
+         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .gradient-bg { background: linear-gradient(135deg, #32B599 0%, #1a8a70 100%); }
+        .glass { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+    </style>
+    <title>Interview Pass | Job Info</title>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between" style="background: #F8FAFB;">
+
+    <!-- Navbar -->
+    <nav class="glass border-b border-gray-100 px-4 lg:px-8 sticky top-0 z-50 flex items-center justify-between" style="height: 65px;">
+        
+        <div class="flex items-center gap-6">
+            <a href="{% url 'hr_dashboard' %}" class="logo-link flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg gradient-bg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                </div>
+                <span class="hidden sm:block font-bold text-gray-900 text-sm tracking-tight">Interview Pass</span>
+            </a>
+            
+            <div class="hidden md:flex items-center gap-1 border-l border-gray-200 pl-6">
+                <a href="{% url 'hr_dashboard' %}" class="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-900 bg-gray-100">Dashboard</a>
+                <a href="/about/" class="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-500 hover:text-gray-900 transition">About</a>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-4">
+            <a href="{% url 'create_job' %}" class="gradient-bg text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold hover:opacity-90 transition flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                <span class="hidden sm:inline">Post Job</span>
+            </a>
+
+            <div class="w-px h-6 bg-gray-200 mx-1"></div>
+
+            <a href="/profile/" class="flex items-center gap-2 hover:bg-gray-50 rounded-lg p-1 transition">
+                <div class="w-7 h-7 rounded-full overflow-hidden border border-gray-200">
+                    {% if user.profile_pic %}
+                        <img src="{{ user.profile_pic.url }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full gradient-bg flex items-center justify-center text-white text-[10px] font-bold">{{ user.first_name|first }}</div>
+                    {% endif %}
+                </div>
+                <span class="hidden sm:block text-sm font-medium text-gray-700">{{ user.first_name }}</span>
+            </a>
+            
+            <a href="/logout/" class="text-gray-400 hover:text-red-500 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            </a>
+        </div>
+    </nav>
+
+   <div class="max-w-7xl mx-auto mt-10 px-4 pb-16 flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        <!-- LEFT: Back + Job Info -->
+        <div class="flex flex-col gap-4">
+            <a href="{% url 'hr_dashboard' %}" class="mt-[25px]  inline-flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-primary  transition group">
+            <svg class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+            </svg>
+                Back to Dashboard
+            </a>
+
+
+            <!-- Job Info Card  -->
+            <div class="bg-white rounded-2xl mt-2 shadow-md border border-gray-100 overflow-hidden flex flex-col">
+                    <div class="gradient-bg px-8 py-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-white text-opacity-70 text-sm mb-1">Job Position</p>
+                                <h1 class="text-xl text-white font-extrabold tracking-tight">{{ job.title }}</h1>
+                            </div>
+                            <span class="px-3 py-1 bg-white bg-opacity-20 text-white text-xs font-semibold rounded-full">
+                                {{ job.get_experience_level_display }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-8 space-y-5 flex-1 flex flex-col">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Description</label>
+                            <p class="text-gray-700 text-sm leading-relaxed bg-gray-50 rounded-xl p-4">{{ job.description }}</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Skills Required</label>
+                            <div class="flex flex-wrap gap-2">
+                                {% for skill in job.skills.all %}
+                                <span class="px-3 py-1 bg-primary bg-opacity-10 text-primary text-sm font-medium rounded-full">{{ skill.name }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Interview Questions</label>
+                            <div class="space-y-2">
+                                {% for q in job.questions.all %}
+                                <div class="flex gap-3 bg-gray-50 rounded-xl p-3">
+                                    <span class="gradient-bg text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0">{{ forloop.counter }}</span>
+                                    <p class="text-gray-700 text-sm">{{ q.question_text }}</p>
+                                </div>
+                                {% empty %}
+                                <p class="text-gray-400 text-sm">No questions added.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 pt-4 border-t border-gray-100 mt-auto">
+                            <a href="{% url 'edit_job' job.id %}" class="flex-1 text-center gradient-bg text-white py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition shadow-md">
+                                Edit Job
+                            </a>
+                            <a href="{% url 'delete_job' job.id %}" onclick="return confirm('Delete this job?')" class="flex-1 text-center bg-red-50 text-red-500 py-2.5 rounded-xl text-sm font-semibold hover:bg-red-100 transition">
+                                Delete Job
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+
+        <!-- RIGHT: Applicants -->
+        <div class="flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-l font-bold mb-1 text-gray-800">Applicants</h2>
+                    <p class="text-sm text-gray-400">People who applied for this job</p>
+                </div>
+                <span class="gradient-bg text-white text-sm font-bold px-4 py-1.5 rounded-full shadow">
+                    {{ applications.count }} Total
+                </span>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead>
+                            <tr class="gradient-bg text-white">
+                                <th class="px-5 py-4 font-semibold">Name</th>
+                                <th class="px-5 py-4 font-semibold">Experience</th>
+                                <th class="px-5 py-4 font-semibold">Status</th>
+                                <th class="px-5 py-4 font-semibold">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for app in applications %}
+                            <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                                <td class="px-5 py-4">
+                                    <a href="{% url 'applicant_profile' app.id %}" class="font-semibold text-gray-800 hover:text-primary transition">
+                                        {{ app.job_seeker.first_name }} {{ app.job_seeker.last_name }}
+                                    </a>
+                                </td>
+                                <td class="px-5 py-4 text-gray-500">{{ job.get_experience_level_display }}</td>
+                                <td class="px-5 py-4">
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold
+                                        {% if app.status == 'accepted' %} bg-green-100 text-green-700
+                                        {% elif app.status == 'rejected' %} bg-red-100 text-red-700
+                                        {% else %} bg-yellow-100 text-yellow-700 {% endif %}">
+                                        {{ app.status|capfirst }}
+                                    </span>
+                                </td>
+                                <td class="px-5 py-4 text-gray-400">{{ app.applied_at|date:"M d, Y" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="px-5 py-12 text-center">
+                                    <p class="text-gray-400 font-medium">No applicants yet</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer style=" border-top: 1px solid #E8ECEF;" class="glass px-6 py-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <!-- Logo + tagline -->
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-lg gradient-bg flex items-center justify-center flex-shrink-0">
+                    <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <span class="text-sm font-bold text-gray-900">Interview Pass</span>
+                <span class="text-gray-300 text-xs">—</span>
+                <span class="text-xs text-gray-400">Smarter hiring for modern teams</span>
+            </div>
+
+            <!-- Links -->
+            <div class="flex items-center gap-1">
+                <a href="/about/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-white transition">About</a>
+                <a href="/profile/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-white transition">Profile</a>
+                <a href="/logout/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-red-500 hover:bg-red-50 transition">Logout</a>
+            </div>
+
+            <!-- Copyright -->
+            <p class="text-xs text-gray-400">© 2026 Interview Pass</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- Dynamic JavaScript Logic -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>         
+

@@ -1,0 +1,180 @@
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% load static %}
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        primary: '#32B599', 
+                        primaryDark: '#1a8a70',
+                        surface: '#F8FAFB',
+                        accent: '#F0FDF4'
+                    },
+                    boxShadow: {
+                        premium: '0 10px 30px -10px rgba(50, 181, 153, 0.08)',
+                        cardHover: '0 20px 40px -15px rgba(26, 138, 112, 0.12)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .gradient-bg { background: linear-gradient(135deg, #32B599 0%, #1a8a70 100%); }
+        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .premium-card { background: #ffffff; border: 1px solid rgba(228, 232, 235, 0.9); border-radius: 20px; }
+    </style>
+    <title>Interview Pass — Edit Opportunity</title>
+</head>
+<body style="background: #F8FAFB; min-height: 100vh;" class="antialiased text-slate-800 flex flex-col justify-between">
+
+    <!-- Navbar -->
+        <nav class="glass border-b border-gray-100 px-4 lg:px-8 sticky top-0 z-50 flex items-center justify-between" style="height: 65px;">
+        
+        <div class="flex items-center gap-6">
+            <a href="{% url 'hr_dashboard' %}" class="logo-link flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg gradient-bg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                </div>
+                <span class="hidden sm:block font-bold text-gray-900 text-sm tracking-tight">Interview Pass</span>
+            </a>
+            
+            <div class="hidden md:flex items-center gap-1 border-l border-gray-200 pl-6">
+                <a href="{% url 'hr_dashboard' %}" class="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-900 bg-gray-100">Dashboard</a>
+                <a href="/about/" class="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-500 hover:text-gray-900 transition">About</a>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-4">
+            <a href="{% url 'create_job' %}" class="gradient-bg text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold hover:opacity-90 transition flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                <span class="hidden sm:inline">Post Job</span>
+            </a>
+
+            <div class="w-px h-6 bg-gray-200 mx-1"></div>
+
+            <a href="/profile/" class="flex items-center gap-2 hover:bg-gray-50 rounded-lg p-1 transition">
+                <div class="w-7 h-7 rounded-full overflow-hidden border border-gray-200">
+                    {% if user.profile_pic %}
+                        <img src="{{ user.profile_pic.url }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full gradient-bg flex items-center justify-center text-white text-[10px] font-bold">{{ user.first_name|first }}</div>
+                    {% endif %}
+                </div>
+                <span class="hidden sm:block text-sm font-medium text-gray-700">{{ user.first_name }}</span>
+            </a>
+            
+            <a href="/logout/" class="text-gray-400 hover:text-red-500 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-8 py-10 w-full">
+        <a href="{% url 'job_info' job.id %}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-primary mb-6 transition group">
+            <svg class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Job Details
+        </a>
+        
+        <div class="premium-card overflow-hidden shadow-premium">
+            <div class="gradient-bg px-8 py-7 text-white">
+                <h1 class="text-xl font-extrabold tracking-tight">Edit: {{ job.title }}</h1>
+                <p class="text-[11px] text-emerald-100/80 mt-1 font-medium">Updating existing opportunity details.</p>
+            </div>
+
+            <div class="p-8 bg-white">
+                {% if messages %}
+                    <div class="mb-6 space-y-2">
+                        {% for msg in messages %}
+                            <div class="flex items-center gap-2.5 bg-red-50 text-red-700 text-xs font-semibold px-4 py-3.5 rounded-xl border border-red-100/60 shadow-sm">
+                                {{ msg }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form action="{% url 'edit_job' job.id %}" method="post" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="md:col-span-2">
+                            <label class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-2">Job Title</label>
+                            <input type="text" name="title" value="{{ job.title }}" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary bg-slate-50/40 text-sm text-slate-800 shadow-inner">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-2">Experience Level</label>
+                            <select name="experience_level" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary bg-slate-50/40 text-sm text-slate-800 shadow-inner appearance-none cursor-pointer">
+                                <option value="junior" {% if job.experience_level == 'junior' %}selected{% endif %}>Junior</option>
+                                <option value="mid" {% if job.experience_level == 'mid' %}selected{% endif %}>Mid-Level</option>
+                                <option value="senior" {% if job.experience_level == 'senior' %}selected{% endif %}>Senior</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-2">Detailed Description</label>
+                        <textarea name="description" rows="4" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary bg-slate-50/40 text-sm text-slate-800 shadow-inner resize-none">{{ job.description }}</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-extrabold text-slate-600 uppercase tracking-wider mb-2">Technical Skill Requirements</label>
+                        <input type="text" name="skills_required" value="{% for skill in job.skills.all %}{{ skill.name }}{% if not forloop.last %} {% endif %}{% endfor %}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary bg-slate-50/40 text-sm text-slate-800 shadow-inner">
+                    </div>
+
+                    <div class="flex gap-4 pt-6 border-t border-slate-100">
+                        <button type="submit" class="flex-1 py-3 px-6 bg-gradient-to-r from-[#32B599] to-[#1a8a70] text-white rounded-xl text-sm font-bold hover:shadow-lg transition">Save Changes</button>
+                    <a href="{% url 'job_info' job.id %}" class="flex-1 text-center py-3 px-6 border border-slate-200 text-slate-600 bg-white rounded-xl text-sm font-semibold hover:bg-slate-50 transition">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+ 
+    <!-- Footer -->
+    <footer style=" border-top: 1px solid #E8ECEF;" class="glass px-6 py-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <!-- Logo + tagline -->
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-lg gradient-bg flex items-center justify-center flex-shrink-0">
+                    <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <span class="text-sm font-bold text-gray-900">Interview Pass</span>
+                <span class="text-gray-300 text-xs">—</span>
+                <span class="text-xs text-gray-400">Smarter hiring for modern teams</span>
+            </div>
+
+            <!-- Links -->
+            <div class="flex items-center gap-1">
+                <a href="/about/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-white transition">About</a>
+                <a href="/profile/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-white transition">Profile</a>
+                <a href="/logout/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-red-500 hover:bg-red-50 transition">Logout</a>
+            </div>
+
+            <!-- Copyright -->
+            <p class="text-xs text-gray-400">© 2026 Interview Pass</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- Dynamic JavaScript Logic -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#32B599',
+                    }
+                }
+            }
+        }
+    </script>
+    <title>Interview Pass | Register</title>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gray-50">
+
+    <div class="flex w-full min-h-screen">
+
+        <!-- Left Side -->
+        <div class="hidden md:flex w-1/2 bg-primary items-center justify-center">
+            <div class="text-white text-center px-10">
+                <h1 class="text-5xl font-bold mb-4">Create Your Account</h1>
+                <p class="text-lg opacity-80">Join Interview Pass and start your journey today.</p>
+            </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="w-full md:w-1/2 flex items-center justify-center px-8 py-12">
+            <div class="w-full max-w-md">
+
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800">Register</h2>
+                    <div class="flex gap-2">
+                        <button onclick="setRole('hr')" id="btn-hr"
+                            class="px-4 py-1 bg-primary text-white rounded-full text-sm font-medium transition">HR</button>
+                        <button onclick="setRole('jobseeker')" id="btn-jobseeker"
+                            class="px-4 py-1 border border-primary text-primary rounded-full text-sm font-medium transition">Job Seeker</button>
+                    </div>
+                </div>
+
+                {% if messages %}
+                    {% for msg in messages %}
+                        <p class="mb-4 text-red-500 text-sm">{{ msg }}</p>
+                    {% endfor %}
+                {% endif %}
+
+                <form action="/register/submit/" method="post" class="space-y-4">
+                    {% csrf_token %}
+                    <input type="hidden" name="role" id="role-input" value="hr">
+
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">First Name</label>
+                        <input type="text" name="first_name" required
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Last Name</label>
+                        <input type="text" name="last_name" required
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Email</label>
+                        <input type="email" name="email" required
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Password</label>
+                        <input type="password" name="password" required
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Confirm Password</label>
+                        <input type="password" name="confirm_pw" required
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:opacity-90 transition">
+                        Create Account
+                    </button>
+                </form>
+
+                <p class="mt-6 text-sm text-gray-500 text-center">
+                    Already have an account?
+                    <a href="/login/" class="text-primary font-medium hover:underline">Login</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setRole(role) {
+            document.getElementById('role-input').value = role;
+            const hrBtn = document.getElementById('btn-hr');
+            const jsBtn = document.getElementById('btn-jobseeker');
+            if (role === 'hr') {
+                hrBtn.className = 'px-4 py-1 bg-primary text-white rounded-full text-sm font-medium transition';
+                jsBtn.className = 'px-4 py-1 border border-gray-300 text-gray-500 rounded-full text-sm font-medium transition';
+            } else {
+                jsBtn.className = 'px-4 py-1 bg-primary text-white rounded-full text-sm font-medium transition';
+                hrBtn.className = 'px-4 py-1 border border-gray-300 text-gray-500 rounded-full text-sm font-medium transition';
+            }
+        }
+</script>
+
+</body>
+</html>

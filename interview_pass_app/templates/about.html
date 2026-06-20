@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% load static %}
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { primary: '#32B599', dark: '#1a2e2a' } } }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #32B599 0%, #1a8a70 100%); }
+        .glass { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(50,181,153,0.15); }
+    </style>
+    <title>Interview Pass | About Us</title>
+</head>
+<body class="min-h-screen" style="background: #F8FAFB;">
+     <!-- Navbar -->
+        <nav class="glass border-b border-gray-100 px-4 lg:px-8 sticky top-0 z-50 flex items-center justify-between" style="height: 65px;">
+        
+        <div class="flex items-center gap-6">
+            <a href="{% url 'hr_dashboard' %}" class="logo-link flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg gradient-bg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                </div>
+                <span class="hidden sm:block font-bold text-gray-900 text-sm tracking-tight">Interview Pass</span>
+            </a>
+            
+            <div class="hidden md:flex items-center gap-1 border-l border-gray-200 pl-6">
+                     {% if user.role == 'hr' %}
+                    <a href="{% url 'hr_dashboard' %}" class="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-900 bg-gray-100">Dashboard</a>
+                 {% else %}
+                    <a href="{% url 'jobs_list' %}" class="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-900 bg-gray-100">Jobs</a>
+                {% endif %}
+                <a href="/about/" class="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-500 hover:text-gray-900 transition">About</a>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-4">
+             {% if user.role == 'hr' %}
+             <a href="{% url 'create_job' %}" class="gradient-bg text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold hover:opacity-90 transition flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                <span class="hidden sm:inline">Post Job</span>
+            </a>
+             {% endif %}
+            <div class="w-px h-6 bg-gray-200 mx-1"></div>
+
+            <a href="/profile/" class="flex items-center gap-2 hover:bg-gray-50 rounded-lg p-1 transition">
+                <div class="w-7 h-7 rounded-full overflow-hidden border border-gray-200">
+                    {% if user.profile_pic %}
+                        <img src="{{ user.profile_pic.url }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full gradient-bg flex items-center justify-center text-white text-[10px] font-bold">{{ user.first_name|first }}</div>
+                    {% endif %}
+                </div>
+                <span class="hidden sm:block text-sm font-medium text-gray-700">{{ user.first_name }}</span>
+            </a>
+            
+            <a href="/logout/" class="text-gray-400 hover:text-red-500 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            </a>
+        </div>
+    </nav>
+    <!-- Hero -->
+    <div class="gradient-bg py-24 px-8 text-center relative overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-20 -left-20 w-96 h-96 bg-white opacity-5 rounded-full"></div>
+            <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-white opacity-5 rounded-full"></div>
+        </div>
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <span class="inline-block px-4 py-1 bg-white bg-opacity-20 text-white text-sm font-semibold rounded-full mb-6">
+                 About Interview Pass
+            </span>
+            <h1 class="text-5xl font-extrabold text-white mb-6 leading-tight">
+                Bridging the Gap Between<br><span class="text-white text-opacity-80">Talent & Opportunity</span>
+            </h1>
+            <p class="text-white text-opacity-80 text-lg leading-relaxed">
+                Interview Pass is a smart hiring platform designed to streamline the recruitment process
+                for HR professionals while giving job seekers a structured and fair application experience.
+            </p>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 pb-20">
+
+        <!-- Mission -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 mb-16">
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-8 card-hover">
+                <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mb-4 shadow-md">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Our Mission</h3>
+                <p class="text-gray-500 leading-relaxed">To reduce time-to-hire for companies while giving candidates a meaningful, transparent, and organized application experience that truly reflects their potential.</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-8 card-hover">
+                <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mb-4 shadow-md">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Our Vision</h3>
+                <p class="text-gray-500 leading-relaxed">To become the leading platform where every hiring decision is made with clarity, every candidate is evaluated fairly, and every opportunity is matched with the right talent.</p>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-extrabold text-gray-800">What We <span class="text-primary">Offer</span></h2>
+            <p class="text-gray-400 mt-2">Everything you need for a smarter hiring process</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 card-hover text-center">
+                <div class="w-14 h-14 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <h4 class="font-bold text-gray-800 mb-2">Smart Job Posting</h4>
+                <p class="text-sm text-gray-500 leading-relaxed">HR managers can post detailed job listings with custom interview questions tailored to each position.</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 card-hover text-center">
+                <div class="w-14 h-14 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h4 class="font-bold text-gray-800 mb-2">Structured Applications</h4>
+                <p class="text-sm text-gray-500 leading-relaxed">Job seekers answer role-specific interview questions when applying, giving HR a complete picture from day one.</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 card-hover text-center">
+                <div class="w-14 h-14 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                    </svg>
+                </div>
+                <h4 class="font-bold text-gray-800 mb-2">Real-time Tracking</h4>
+                <p class="text-sm text-gray-500 leading-relaxed">Candidates track their application status in real time — pending, accepted, or rejected — with full transparency.</p>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="gradient-bg rounded-2xl p-10 text-white text-center shadow-lg relative overflow-hidden mb-16">
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute -top-10 -left-10 w-64 h-64 bg-white opacity-5 rounded-full"></div>
+                <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-white opacity-5 rounded-full"></div>
+            </div>
+            <div class="relative grid grid-cols-3 gap-8">
+                <div>
+                    <p class="text-5xl font-extrabold">2</p>
+                    <p class="text-white text-opacity-70 mt-2 text-sm">User Roles</p>
+                </div>
+                <div>
+                    <p class="text-5xl font-extrabold">100%</p>
+                    <p class="text-white text-opacity-70 mt-2 text-sm">Transparent Process</p>
+                </div>
+                <div>
+                    <p class="text-5xl font-extrabold">∞</p>
+                    <p class="text-white text-opacity-70 mt-2 text-sm">Opportunities</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Built with -->
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-extrabold text-gray-800">Built <span class="text-primary">With</span></h2>
+            <p class="text-gray-400 mt-2">Modern technologies for a reliable experience</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {% for tech in techs %}
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-5 text-center card-hover">
+                <p class="font-bold text-gray-800">{{ tech }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+       <!-- Footer -->
+    <footer style="border-top: 1px solid #E8ECEF;" class="glass px-6 py-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <!-- Logo + tagline -->
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-lg gradient-bg flex items-center justify-center flex-shrink-0">
+                    <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <span class="text-sm font-bold text-gray-900">Interview Pass</span>
+                <span class="text-gray-300 text-xs">—</span>
+                <span class="text-xs text-gray-400">Smarter hiring for modern teams</span>
+            </div>
+
+            <!-- Links -->
+            <div class="flex items-center gap-1">
+                <a href="/about/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-white transition">About</a>
+                <a href="/profile/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-white transition">Profile</a>
+                <a href="/logout/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-red-500 hover:bg-red-50 transition">Logout</a>
+            </div>
+
+            <!-- Copyright -->
+            <p class="text-xs text-gray-400">© 2026 Interview Pass</p>
+        </div>
+    </div>
+</footer>
+
+    <!-- Dynamic JavaScript Logic -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
