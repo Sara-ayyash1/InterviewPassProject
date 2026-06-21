@@ -1,4 +1,3 @@
-MM9NWFK2Z4JMT628HN7NTGHP
 # Setup
     1- Create new repositry in GitHub
     2- Create Django project and the same level as manage.py add a .gitignore File.
@@ -33,7 +32,7 @@ MM9NWFK2Z4JMT628HN7NTGHP
 # Server Configuration
     1- ubuntu@your-server:~$ sudo apt-get update  (update the system packages.)
     2- ubuntu@your-server:~$ sudo apt-get install nginx (Install NGINX)
-    3- ubuntu@your-server:~$ git clone https://github.com/Sara-ayyash1/DjangoExam.git
+    3- ubuntu@your-server:~$ git clone https://github.com/Sara-ayyash1/InterviewPassProject.git
     4- ubuntu@your-server:~$ cd DjangoExam
     5- ubuntu@your-server:~$ sudo apt-get install python3-venv (Install venv)
     6- ubuntu@your-server:~/your-repository$ python3 -m venv venv (create a Python virtual environment.)
