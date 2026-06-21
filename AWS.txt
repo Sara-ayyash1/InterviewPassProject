@@ -187,6 +187,6 @@ sock مش موجود      sudo systemctl restart gunicorn
 
 بعد أي تغيير دايماً:
 
-bashsudo systemctl daemon-reload
+sudo systemctl daemon-reload
 sudo systemctl restart gunicorn
 sudo systemctl restart nginx

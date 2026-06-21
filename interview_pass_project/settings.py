@@ -126,6 +126,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# STATIC_URL = 'static/'
+# STATICFILES_DIRS = [BASE_DIR / 'static']
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# The URL prefix used to serve static files (this is what was missing)
+STATIC_URL = '/static/'
+
+# المسار الذي يجمع فيه Django الملفات للإنتاج
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# المسار الذي توجد فيه ملفاتك الثابتة حالياً (داخل التطبيقات أو مجلد static الرئيسي)
+STATICFILES_DIRS = [
+    BASE_DIR / 'interview_pass_app' / 'static',
+]
