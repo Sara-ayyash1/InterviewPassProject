@@ -24,16 +24,16 @@
     1- Go to the Git Bash , run the deactivate
     2- cd /c/Users/MH/Downloads/pem
     3- run the command that was in the connect
-       => chmod 400 "MYDjangoExamKey.pem"
-       => ssh -i "MYDjangoExamKey.pem" ubuntu@ec2-13-51-13-77.eu-north-1.compute.amazonaws.com
-
+       => chmod 400 "interview_pass_key.pem"
+       => ssh -i "interview_pass_key.pem" ubuntu@ec2-51-21-170-115.eu-north-1.compute.amazonaws.com
+       
 #==========================================Here...
 
 # Server Configuration
     1- ubuntu@your-server:~$ sudo apt-get update  (update the system packages.)
     2- ubuntu@your-server:~$ sudo apt-get install nginx (Install NGINX)
     3- ubuntu@your-server:~$ git clone https://github.com/Sara-ayyash1/InterviewPassProject.git
-    4- ubuntu@your-server:~$ cd DjangoExam
+    4- ubuntu@your-server:~$ cd InterviewPassProject
     5- ubuntu@your-server:~$ sudo apt-get install python3-venv (Install venv)
     6- ubuntu@your-server:~/your-repository$ python3 -m venv venv (create a Python virtual environment.)
     7- ubuntu@your-server:~/your-repository$ source venv/bin/activate
@@ -43,12 +43,12 @@
 #==========================================
 
 # Modifying Settings
-    1- (venv) ubuntu@54.162.31.253:~/myRepoName$ cd django_project/
+    1- (venv) ubuntu@54.162.31.253:~/myRepoName$ cd interview_pass_project/
     2- (venv) ubuntu@54.162.31.253:~/myRepoName/projectName$ sudo vim settings.py
             # modify these lines with press i =>and to Save and quit. (esc, :wq, enter)
                 import os
 	        	DEBUG = False
-                ALLOWED_HOSTS = ['13.51.13.77']    # keep the quotes!
+                ALLOWED_HOSTS = ['51.21.170.115']    # keep the quotes!
                 STATIC_ROOT = os.path.join(BASE_DIR, "static/")    # add this line at the bottom; don't replace any existing lines!
     3- (venv) ubuntu@54.162.31.253:~/myRepoName/projectName$ cd ..
     4- (venv) ubuntu@54.162.31.253:~myRepoName$ python manage.py collectstatic    # type yes when prompted
@@ -58,7 +58,7 @@
 #==========================================
 
 # Set up Gunicorn
-    1- (venv) ubuntu@54.162.31.253:~myRepoName$ gunicorn django_project.wsgi
+    1- (venv) ubuntu@54.162.31.253:~myRepoName$ gunicorn interview_pass_project.wsgi
     2- ubuntu@54.162.31.253:~myRepoName$ sudo vim /etc/systemd/system/gunicorn.service
     4- Then Copy , Paste and edit the following code ,Don't forget to type i Before copying and pasting the lines below!
             [Unit]
@@ -67,8 +67,8 @@
             [Service]
             User=ubuntu
             Group=www-data
-            WorkingDirectory=/home/ubuntu/DjangoExam
-            ExecStart=/home/ubuntu/DjangoExam/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/DjangoExam/django_project.sock django_project.wsgi:application
+            WorkingDirectory=/home/ubuntu/InterviewPassProject
+            ExecStart=/home/ubuntu/InterviewPassProject/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/InterviewPassProject/interview_pass_project.sock interview_pass_project.wsgi:application
             [Install]
             WantedBy=multi-user.target
     5- ubuntu@54.162.31.253:~$ sudo systemctl daemon-reload    # systemctl ends with the letter L, not a number
@@ -81,20 +81,20 @@
 #==========================================
 
 # Nginx (Save and exit. (esc, :wq, enter))
-    1- ubuntu@54.162.31.253:~$ sudo vim /etc/nginx/sites-available/django_project
+    1- ubuntu@54.162.31.253:~$ sudo vim /etc/nginx/sites-available/interview_pass_project
         server {
             listen 80;
-            server_name 13.51.13.77;
+            server_name 51.21.170.115;
             location = /favicon.ico { access_log off; log_not_found off; }
             location /static/ {
-                root /home/ubuntu/DjangoExam;
+                root /home/ubuntu/InterviewPassProject;
             }
             location / {
                 include proxy_params;
-                proxy_pass http://unix:/home/ubuntu/DjangoExam/django_project.sock;
+                proxy_pass http://unix:/home/ubuntu/InterviewPassProject/interview_pass_project.sock;
             }
         }
-    2- ubuntu@54.162.31.253:~$ sudo ln -s /etc/nginx/sites-available/django_project /etc/nginx/sites-enabled
+    2- ubuntu@54.162.31.253:~$ sudo ln -s /etc/nginx/sites-available/interview_pass_project /etc/nginx/sites-enabled
     3- ubuntu@54.162.31.253:~$ sudo nginx -t
     4- ubuntu@54.162.31.253:~$ sudo rm /etc/nginx/sites-enabled/default
     5- ubuntu@54.162.31.253:~$ sudo service nginx restart
@@ -103,9 +103,9 @@
 
 # Now we must set the correct permissions for our socket files so that our server can access it:
     sudo chmod 755 /home/ubuntu
-    sudo chmod 755 /home/ubuntu/DjangoExam
-    sudo chmod 664 /home/ubuntu/DjangoExam/django_project.sock
-    sudo chown www-data /home/ubuntu/DjangoExam/django_project.sock
+    sudo chmod 755 /home/ubuntu/InterviewPassProject
+    sudo chmod 664 /home/ubuntu/InterviewPassProject/interview_pass_project.sock
+    sudo chown www-data /home/ubuntu/InterviewPassProject/interview_pass_project.sock
 
 # Now we add Nginx to the user group that owns the socket file:
     sudo usermod -aG ubuntu www-data
@@ -126,7 +126,7 @@ git push origin master
 
 #On server:
 
-cd ~/DjangoExam
+cd ~/InterviewPassProject
 git pull
 sudo systemctl restart gunicorn
 sudo service nginx restart
@@ -134,7 +134,7 @@ sudo service nginx restart
 
 #Access Project
 
-http://13.51.13.77
+http://51.21.170.115
 
 #==========================================
 
@@ -148,7 +148,7 @@ http://13.51.13.77
 #==========================================
 # refused to connect Proplem
 
-sudo ln -s /etc/nginx/sites-available/django_project /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/interview_pass_project /etc/nginx/sites-enabled/
 sudo systemctl restart nginx
 
 sudo systemctl status nginx
@@ -156,7 +156,7 @@ sudo systemctl start nginx
 sudo systemctl enable nginx
 sudo nginx -t
 
-cd ~/DjangoExam
+cd ~/InterviewPassProject
 source venv/bin/activate
 sudo systemctl start gunicorn
 sudo systemctl status gunicorn
@@ -180,7 +180,7 @@ sudo journalctl -u gunicorn --no-pager -n 20
 
 nginx مش شغال     sudo systemctl restart nginx
 gunicorn         sudo systemctl restart gunicorn
-symlink ناقص      sudo ln -s /etc/nginx/sites-available/django_project /etc/nginx/sites-enabled/
+symlink ناقص      sudo ln -s /etc/nginx/sites-available/interview_pass_project /etc/nginx/sites-enabled/
 config فيه خطأ      sudo nginx -t بيحدد السطر
 sock مش موجود      sudo systemctl restart gunicorn
 
