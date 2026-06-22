@@ -1,12 +1,6 @@
 # Interview Pass
 
 > A smart, structured hiring platform that bridges the gap between HR professionals and job seekers — built with Django, MySQL, and Tailwind CSS.
-
-![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
-![Django](https://img.shields.io/badge/Django-5.x-darkgreen.svg)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-orange.svg)
-![License](https://img.shields.io/badge/License-Proprietary-lightgrey.svg)
-
 ---
 
 ## Table of Contents
