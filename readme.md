@@ -2,11 +2,87 @@
 
 > A smart, structured hiring platform that bridges the gap between HR professionals and job seekers — built with Django, MySQL, and Tailwind CSS.
 
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Django](https://img.shields.io/badge/Django-5.x-darkgreen.svg)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-orange.svg)
+![License](https://img.shields.io/badge/License-Proprietary-lightgrey.svg)
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Database Schema](#database-schema)
+- [Getting Started](#getting-started)
+- [API](#api)
+- [AI Features (Google Gemini)](#ai-features-google-gemini)
+- [Deployment](#deployment)
+- [Design Decisions](#design-decisions)
+- [Author](#author)
+- [License](#license)
+
 ---
 
 ## Overview
 
 Interview Pass streamlines the end-to-end recruitment workflow. HR managers post jobs with custom screening questions, and job seekers apply by answering those questions directly — giving recruiters meaningful signal before any interview takes place.
+
+---
+
+## Screenshots
+
+> Place your image files under `screenshots/` using the folder structure below, then they will render automatically on GitHub.
+
+```
+screenshots/
+├── auth/
+│   ├── login.png
+│   └── register.png
+├── hr/
+│   ├── dashboard.png
+│   ├── create-job.png
+│   ├── job-details.png
+│   └── applicant-profile.png
+├── jobseeker/
+│   ├── job-listings.png
+│   ├── apply-job.png
+│   └── profile.png
+└── about-us.png
+```
+
+###  About Us
+
+![About Us](screenshots/about-us.png)
+
+### Authentication
+
+| Login | Register |
+|:---:|:---:|
+| ![Login](screenshots/auth/login.png) | ![Register](screenshots/auth/register.png) |
+
+###  HR Pages
+
+| Dashboard | Create Job |
+|:---:|:---:|
+| ![HR Dashboard](screenshots/hr/dashboard.png) | ![Create Job](screenshots/hr/create-job.png) |
+
+| Job Details | Applicant Profile |
+|:---:|:---:|
+| ![Job Details](screenshots/hr/job_detail.png) | ![Applicant Profile](screenshots/hr/applicant-profile.png) |
+
+### Job Seeker Pages
+
+| Job Listings | Apply to Job |
+|:---:|:---:|
+| ![Job Listings](screenshots/jobseeker/job-listings.png) | ![Apply Job](screenshots/jobseeker/apply-job.png) |
+
+**Profile**
+
+![Job Seeker Profile](screenshots/jobseeker/profile.png)
 
 ---
 
@@ -43,6 +119,7 @@ Interview Pass streamlines the end-to-end recruitment workflow. HR managers post
 | Frontend | Tailwind CSS (CDN), Vanilla JS |
 | Authentication | Custom session-based auth with bcrypt |
 | Email API | Gmail SMTP |
+| AI | Google Gemini 2.5 Flash |
 | Deployment | AWS EC2 + Nginx + Gunicorn |
 | Version Control | Git / GitHub |
 
@@ -70,6 +147,7 @@ interview_pass_project/
 │   └── about.html
 ├── static/
 │   └── js/main.js
+├── screenshots/                # README screenshots (auth, hr, jobseeker)
 └── media/                      # User-uploaded profile pictures
 ```
 
@@ -177,6 +255,7 @@ Returns all available job listings.
 ```
 
 ---
+
 ## AI Features (Google Gemini)
 
 Interview Pass integrates **Google Gemini 2.5 Flash** to assist HR managers with three intelligent features:
@@ -184,19 +263,19 @@ Interview Pass integrates **Google Gemini 2.5 Flash** to assist HR managers with
 ### 1. Generate Job Description
 Automatically generates a professional 3–4 paragraph job description based on the job title, required skills, and experience level.
 
-**Used in:** Create Job page  
+**Used in:** Create Job page
 **Function:** `generate_description(title, skills, experience_level)`
 
 ### 2. Generate Interview Questions
 Suggests 5 role-specific technical interview questions tailored to the job requirements.
 
-**Used in:** Create Job page  
+**Used in:** Create Job page
 **Function:** `generate_questions(title, skills, experience_level)`
 
 ### 3. Analyze Candidate CV
 Evaluates a candidate's resume against the job requirements and returns a structured analysis.
 
-**Used in:** Applicant Profile page  
+**Used in:** Applicant Profile page
 **Function:** `analyze_cv(resume_text, job)`
 
 **Returns:**
@@ -224,6 +303,8 @@ pip install google-genai python-dotenv
 ```
 
 > The service includes automatic retry logic with exponential backoff on 503 errors (up to 3 attempts).
+
+---
 
 ## Deployment
 
@@ -256,10 +337,11 @@ gunicorn interview_pass_project.wsgi:application --bind 0.0.0.0:8000
 
 ## Author
 
-**Sara Ayash**  
-Full Stack Developer — AXSOS Academy (Python Stack)  
+**Sara Ayash**
+Full Stack Developer — AXSOS Academy (Python Stack)
+
 ---
 
 ## License
 
-This project was built as a solo capstone project at AXSOS Academy. All rights reserved.ِ
+This project was built as a solo capstone project at AXSOS Academy. All rights reserved.
