@@ -66,7 +66,7 @@ screenshots/
 
 | Job Details | Applicant Profile |
 |:---:|:---:|
-| ![Job Details](screenshots/hr/job_detail.png) | ![Applicant Profile](screenshots/hr/applicant-profile.png) |
+| ![Job Details](screenshots/hr/job_details.png) | ![Applicant Profile](screenshots/hr/applicant-profile.png) |
 
 ### Job Seeker Pages
 
