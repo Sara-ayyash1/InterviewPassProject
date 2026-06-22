@@ -97,7 +97,6 @@ screenshots/
 
 ### Platform
 - Role-based access control (HR / Job Seeker)
-- Email notification API via Gmail SMTP
 - REST API endpoint: `GET /api/jobs/`
 - Fully responsive UI (mobile, tablet, desktop)
 - Secure: CSRF protection, bcrypt password hashing, SQL injection prevention
