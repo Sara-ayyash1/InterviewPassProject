@@ -25,8 +25,7 @@
     2- cd /c/Users/MH/Downloads/pem
     3- run the command that was in the connect
        => chmod 400 "interview_pass_key.pem"
-       => ssh -i "interview_pass_key.pem" ubuntu@ec2-51-21-170-115.eu-north-1.compute.amazonaws.com
-       
+       => ssh -i "interview_pass_key.pem" ubuntu@ec2-13-49-238-128.eu-north-1.compute.amazonaws.com
 #==========================================Here...
 
 # Server Configuration
@@ -48,7 +47,7 @@
             # modify these lines with press i =>and to Save and quit. (esc, :wq, enter)
                 import os
 	        	DEBUG = False
-                ALLOWED_HOSTS = ['51.21.170.115']    # keep the quotes!
+                ALLOWED_HOSTS = ['13.49.238.128']    # keep the quotes!
                 STATIC_ROOT = os.path.join(BASE_DIR, "static/")    # add this line at the bottom; don't replace any existing lines!
     3- (venv) ubuntu@54.162.31.253:~/myRepoName/projectName$ cd ..
     4- (venv) ubuntu@54.162.31.253:~myRepoName$ python manage.py collectstatic    # type yes when prompted
@@ -84,7 +83,7 @@
     1- ubuntu@54.162.31.253:~$ sudo vim /etc/nginx/sites-available/interview_pass_project
         server {
             listen 80;
-            server_name 51.21.170.115;
+            server_name 13.49.238.128;
             location = /favicon.ico { access_log off; log_not_found off; }
             location /static/ {
                 root /home/ubuntu/InterviewPassProject;
@@ -134,7 +133,7 @@ sudo service nginx restart
 
 #Access Project
 
-http://51.21.170.115
+http://13.49.238.128
 
 #==========================================
 
